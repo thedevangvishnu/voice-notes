@@ -4,6 +4,8 @@ import { useWavesurfer } from "@wavesurfer/react";
 import { Mic, Pause, Play, StopCircle } from "lucide-react";
 import RecordPlugin from "wavesurfer.js/dist/plugins/record.js";
 import TimelinePlugin from "wavesurfer.js/dist/plugins/timeline.js";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Navbar } from "./components/navbar";
 
 function App() {
   const recordingContainerRef = useRef<HTMLDivElement | null>(null);
@@ -111,83 +113,82 @@ function App() {
   };
 
   return (
-    <div className="h-screen w-full flex flex-col justify-center items-center">
-      <div className="py-4 border-b w-full flex items-center justify-start px-4">
-        <h1 className="text-2xl font-semibold">Voice recorder</h1>
-      </div>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <Navbar />
+      <div className="h-screen w-full flex flex-col justify-center items-center">
+        <div className="h-full flex w-full">
+          {/* Left section: Recorder */}
+          <div className="flex flex-col w-1/2 h-full items-center justify-center gap-2 bg-secondary px-4">
+            {/* Recording section */}
+            <div
+              ref={recordingContainerRef}
+              className="border rounded-md h-[300px] w-full"
+            ></div>
 
-      <div className="h-full flex w-full">
-        {/* Left section: Recorder */}
-        <div className="flex flex-col w-1/2 h-full items-center justify-center gap-2 bg-secondary px-4">
-          {/* Recording section */}
-          <div
-            ref={recordingContainerRef}
-            className="border rounded-md h-[300px] w-full"
-          ></div>
-
-          <div className="flex gap-2">
-            {!isRecording && (
-              <Button
-                className="h-20 w-20 rounded-full p-0"
-                onClick={handleRecorderClick}
-              >
-                <Mic className="size-10" strokeWidth={1} />
-              </Button>
-            )}
-            {isRecording && (
-              <>
-                {/* Pause recording */}
+            <div className="flex gap-2">
+              {!isRecording && (
                 <Button
                   className="h-20 w-20 rounded-full p-0"
-                  onClick={handlePauseResumeRecording}
+                  onClick={handleRecorderClick}
                 >
-                  {!isRecordingPaused ? (
-                    <Pause className="size-10" strokeWidth={1} />
-                  ) : (
-                    <Play className="size-10" strokeWidth={1} />
-                  )}
+                  <Mic className="size-10" strokeWidth={1} />
                 </Button>
-                {/* Stop recording */}
-                <Button
-                  className="h-20 w-20 rounded-full p-0"
-                  onClick={handleStopRecording}
-                >
-                  <StopCircle className="size-10" strokeWidth={1} />
-                </Button>
-              </>
-            )}
-          </div>
-        </div>
-
-        {/* Right section: All recordings */}
-        <div className="w-1/2 px-4 py-2">
-          <div className="">
-            <h3 className="font-semibold text-lg">My recording</h3>
-            <div>
-              {/* Recording section */}
-              {recordedUrl && (
-                <div className="flex flex-col">
-                  <div
-                    ref={recordedContainerRef}
-                    className="border rounded-md h-[300px] w-full"
-                  ></div>
+              )}
+              {isRecording && (
+                <>
+                  {/* Pause recording */}
                   <Button
-                    className="h-10 w-10 rounded-full p-0"
-                    onClick={handlePlayPause}
+                    className="h-20 w-20 rounded-full p-0"
+                    onClick={handlePauseResumeRecording}
                   >
-                    {isPlayingRecorded ? (
-                      <Pause className="size-6" strokeWidth={1} />
+                    {!isRecordingPaused ? (
+                      <Pause className="size-10" strokeWidth={1} />
                     ) : (
-                      <Play className="size-6" strokeWidth={1} />
+                      <Play className="size-10" strokeWidth={1} />
                     )}
                   </Button>
-                </div>
+                  {/* Stop recording */}
+                  <Button
+                    className="h-20 w-20 rounded-full p-0"
+                    onClick={handleStopRecording}
+                  >
+                    <StopCircle className="size-10" strokeWidth={1} />
+                  </Button>
+                </>
               )}
+            </div>
+          </div>
+
+          {/* Right section: All recordings */}
+          <div className="w-1/2 px-4 py-2">
+            <div className="">
+              <h3 className="font-semibold text-lg">My recording</h3>
+              <div>
+                {/* Recording section */}
+                {recordedUrl && (
+                  <div className="flex flex-col">
+                    <div
+                      ref={recordedContainerRef}
+                      className="border rounded-md h-[300px] w-full"
+                    ></div>
+                    <Button
+                      className="h-10 w-10 rounded-full p-0"
+                      onClick={handlePlayPause}
+                    >
+                      {isPlayingRecorded ? (
+                        <Pause className="size-6" strokeWidth={1} />
+                      ) : (
+                        <Play className="size-6" strokeWidth={1} />
+                      )}
+                    </Button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }
 
