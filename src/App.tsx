@@ -28,11 +28,12 @@ function App() {
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <Navbar />
-      <div className="h-full bg-secondary w-full flex flex-col justify-center items-center">
-        <Recorder />
+      <div className="h-screen bg-secondary">
+        <Navbar />
+        <div className="h-full overflow-y-auto bg-secondary w-full flex flex-col justify-center items-center">
+          <Recorder />
 
-        {/* <div className="w-1/2 px-4 py-2">
+          {/* <div className="w-1/2 px-4 py-2">
             <div className="">
               <h3 className="font-semibold text-lg">My recording</h3>
               <div>
@@ -57,6 +58,7 @@ function App() {
               </div>
             </div>
           </div> */}
+        </div>
       </div>
     </ThemeProvider>
   );
